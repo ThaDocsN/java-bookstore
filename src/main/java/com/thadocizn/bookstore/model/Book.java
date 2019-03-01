@@ -1,5 +1,7 @@
 package com.thadocizn.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,11 @@ public class Book {
     private String booktitle;
     private String ISBN;
     private int copy;
+
+    @ManyToOne
+    @JoinColumn(name = "sectionid")
+    @JsonIgnoreProperties("books")
+    private Section section;
 
     public Book() {
     }
