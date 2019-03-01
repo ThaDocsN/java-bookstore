@@ -1,32 +1,43 @@
 package com.thadocizn.bookstore.controllers;
 
-import com.thadocizn.bookstore.model.User;
-import com.thadocizn.bookstore.services.UserService;
+import com.thadocizn.bookstore.model.Book;
+import com.thadocizn.bookstore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/manager/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/data/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataController {
     @Autowired
-    private UserService userService;
+    private BookRepository bookRepo;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<User> listUser() {
-        return userService.findAll();
+    @PutMapping("/books/{bookid}")
+    public Book updateBookById(@RequestBody Book newBook, @PathVariable long bookid) throws URISyntaxException {
+       Optional<BookRepository> updateBook = bookRepo.findById(bookid);
+        if (updateBook.isPresent()) {
+            newBook.setBookid(bookid);
+            return newBook;
+        }
+        return null;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User create(@RequestBody User user) {
-        return userService.save(user);
+    @PostMapping("/books/{bookid}/authors/{authorid}")
+    public String addBookAuthorRelation(@PathVariable("bookid") long bookid, @PathVariable("authorid") long authorid) {
+        bookRepo.addBookAuthorRelation(bookid, authorid);
+        return "Added book " + bookid + "to author " + authorid;
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable(value = "id") Long id) {
-        userService.delete(id);
-        return "success";
+    @DeleteMapping("/books/{bookid}")
+    public Book deleteBookById(@PathVariable long bookid) {
+        var foundBook = bookRepo.findById(bookid);
+        if (foundBook.isPresent()) {
+            bookRepo.deleteById(bookid);
+            return (Book) foundBook.get();
+        }
+        return null;
     }
 }
