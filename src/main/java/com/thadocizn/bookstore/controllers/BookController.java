@@ -18,7 +18,6 @@ public class BookController
     BookRepository bookRepo;
 
     @ApiOperation(value = "Returns list of all books.", response = List.class)
-
     @GetMapping(value = "")
     public List<BookRepository> listAllBooks()
     {

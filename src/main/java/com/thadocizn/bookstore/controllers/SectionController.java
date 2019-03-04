@@ -19,7 +19,6 @@ public class SectionController
     SectionRepository sectionRepo;
 
     @ApiOperation(value = "Returns list of all sections.", response = List.class)
-
     @GetMapping(value = "")
     public List<Section> listAllSections()
     {

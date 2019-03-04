@@ -19,7 +19,6 @@ public class AuthorController
     AuthorRepository authorRepo;
 
     @ApiOperation(value = "Returns list of all authors.", response = List.class)
-
     @GetMapping(value = "")
     public List<Author> listAllAuthors()
     {
