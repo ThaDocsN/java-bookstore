@@ -1,5 +1,6 @@
 package com.thadocizn.bookstore.controllers;
 
+import com.thadocizn.bookstore.model.Book;
 import com.thadocizn.bookstore.repositories.BookRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class BookController
 
     @ApiOperation(value = "Returns list of all books.", response = List.class)
     @GetMapping(value = "")
-    public List<BookRepository> listAllBooks()
+    public List<Book> listAllBooks()
     {
         return bookRepo.findAll();
     }

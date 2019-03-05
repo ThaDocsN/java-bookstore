@@ -17,7 +17,7 @@ public class DataController {
 
     @PutMapping("/books/{bookid}")
     public Book updateBookById(@RequestBody Book newBook, @PathVariable long bookid) throws URISyntaxException {
-       Optional<BookRepository> updateBook = bookRepo.findById(bookid);
+       Optional<Book> updateBook = bookRepo.findById(bookid);
         if (updateBook.isPresent()) {
             newBook.setBookid(bookid);
             return newBook;
